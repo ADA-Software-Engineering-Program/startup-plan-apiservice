@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const PlanSchema = new Schema({
-  business_id: {
+  business_name: {
     type: String,
     required: true,
   },

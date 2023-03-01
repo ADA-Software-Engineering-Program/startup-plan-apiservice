@@ -3,41 +3,63 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const BusinessSchema = new Schema({
-   name: {
+   business_name: {
     type: String,
     required: true,
    },
-   business_id: {
+   company_address: {
     type: String,
-    required: true,
-   },
-   documents: {
-    type: [{
-      company_address: String,
-      company_email: String,
-      company_number: String,
-      identity_card: String,
-      cac_approval: String,
-      director_name: String,
-      shareholder_name: String,
-      object_of_company: String,
-      statutory_fees: String,
-      stamp_duty: String,
-      incorporation_certificate: String,
-      company_resolution: String,
-    }],
     required: true
    },
-   plan_classes: {
-    type: [{
-      class_name: {
-        type: String,
-        enum: ["SOLE PROPRIETORSHIP", "PARTNERSHIP", "CORPORATION", "S CORPORATION", "LIMITED LIABILITY COMPANY"]
-      },
-      price: Number,
-    }],
+    company_email: {
+    type: String,
+    required: true
+   },
+    company_number: {
+    type: String,
+    required: true
+   },
+    identity_card: {
+    type: String,
+    required: true
+   },
+    cac_approval: {
+    type: String,
+    required: true
+   },
+    director_name: {
+    type: String,
+    required: true
+   },
+    shareholder_name: {
+    type: String,
+    required: true
+   },
+    object_of_company: {
+    type: String,
+    required: true
+   },
+    statutory_fees: {
+    type: String,
+    required: true
+   },
+    stamp_duty: {
+    type: String,
+    required: true
+   },
+    incorporation_certificate: {
+    type: String,
+    required: true
+   },
+    company_resolution: {
+    type: String,
+    required: true
+   },
+   business_type: {
+    type: String,
+    enum: ["Partnership", "Corporation", "Sole_Proprietorship", "Limited_liability_company", "Sole_Corporation"],
     required: true,
-   }
+   },
 });
 
 const businessModel = mongoose.model('business', BusinessSchema);

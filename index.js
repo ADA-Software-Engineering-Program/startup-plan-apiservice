@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 const express = require("express");
 const connectDb = require("./@helpers/db");
+const { register } = require("./controllers/auth.controller");
 const businessRouter = require("./routes/business.router");
 const planRouter = require("./routes/plan.router");
 
@@ -23,6 +24,24 @@ app.get(`/${api_version}`, (req, res, next) => {
 
 app.use(`/${api_version}/businesses`, businessRouter);
 app.use(`/${api_version}/plans`, planRouter);
+app.post(`/${api_version}/auth/signup`, register);
+
+//error middleware
+
+app.use((error, req, res, next) => {
+  const statusCode = error.statusCode ? error.statusCode : 500;
+  let message = error.message;
+  if (statusCode == 500) {
+    message = "An error occurred on our server, we have been notified";
+  }
+
+  res.status(statusCode).json({
+    status: "error",
+    message: message,
+    error_code: statusCode,
+    data: null
+  });
+})
 
 const PORT = process.env.PORT || 3000;
 

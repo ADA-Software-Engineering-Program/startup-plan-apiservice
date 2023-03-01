@@ -3,8 +3,8 @@ const PlanService = require("../services/plan.services");
 const planRouter = require("express").Router();
 const planService = new PlanService();
 
-planRouter.post('/create')
-planRouter.patch('/change_class')
-planRouter.delete('/cancel')
+// planRouter.post('/create')
+// planRouter.delete('/cancel/:plan_id')
+// planRouter.patch('/change_cancel/:plan_id')
 
 module.exports = planRouter;
