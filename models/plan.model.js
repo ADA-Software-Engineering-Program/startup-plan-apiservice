@@ -18,6 +18,7 @@ const PlanSchema = new Schema({
   company_email: {
     type: String,
     required: true,
+    unique: true,
   },
   company_number: {
     type: String,

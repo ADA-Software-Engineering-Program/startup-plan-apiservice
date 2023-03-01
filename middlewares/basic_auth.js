@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs")
 
 async function verifyAuth(req, res, next) {
   try {
-    console.log(req.headers)
     if (!req.headers.authorization) {
       throw new InvalidOrExpiredAuthToken("auth token missing", 403);
     }
@@ -31,10 +30,31 @@ async function verifyAuth(req, res, next) {
       next();
     } catch (error) {
       next(error);  
+    } 
+}
+
+async function verifyApiKey(req, res, next) {
+  console.log(req.headers)
+  try {
+    if (!req.headers.devapikey) {
+      throw new InvalidOrExpiredAuthToken("api key is missing", 403);
     }
-    
+
+    const apiKey = req.headers.devapikey;
+
+    const userAuth = await authModel.findOne({ apiKey: apiKey.toLowerCase() }).exec();
+
+    if (!userAuth) {
+      throw new InvalidOrExpiredAuthToken("invalid api key: access denied", 403);
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 }
 
 module.exports = {
-  verifyAuth
+  verifyAuth,
+  verifyApiKey
 }

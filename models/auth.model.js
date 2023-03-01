@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const generateApiKey = require("../@helpers/apiGen");
 
 const AuthSchema = new mongoose.Schema({
   username: {
@@ -32,6 +33,16 @@ const AuthSchema = new mongoose.Schema({
     default: Date.now()
   }
 })
+
+AuthSchema.pre('save', function(next) {
+  try {
+    const apikey = generateApiKey(`${this.username}:${this.pwd}`); 
+    this.apiKey = apikey;
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 const authModel = mongoose.model("auth", AuthSchema);
 

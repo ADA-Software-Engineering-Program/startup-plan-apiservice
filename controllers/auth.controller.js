@@ -19,8 +19,8 @@ async function register(req, res, next) {
       throw new ValidationException("email is required", 400);
     }
 
-    const user =  authModel.findOne({ username: username.toLowerCase() }).exec();
-    const user_email =  authModel.findOne({ email: email.toLowerCase() }).exec();
+    const user =   await authModel.findOne({ username: username.toLowerCase() }).exec();
+    const user_email = await authModel.findOne({ email: email.toLowerCase() }).exec();
 
     if(!user || !user_email) {
       //continue registration
@@ -33,7 +33,7 @@ async function register(req, res, next) {
         pwd: hashPassword
       });
 
-      newAuth.save();
+      await newAuth.save();
 
       const { pwd , ...results } = newAuth._doc;
 

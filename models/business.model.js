@@ -13,7 +13,8 @@ const BusinessSchema = new Schema({
    },
     company_email: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
    },
     company_number: {
     type: String,
