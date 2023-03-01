@@ -8,9 +8,11 @@ class NotFoundException extends Error {
 
 class ValidationException extends NotFoundException {};
 class AuthForbiddenException extends NotFoundException {};
+class InvalidOrExpiredAuthToken extends NotFoundException {};
 
 module.exports = {
   ValidationException,
   NotFoundException,
-  AuthForbiddenException
+  AuthForbiddenException,
+  InvalidOrExpiredAuthToken
 }

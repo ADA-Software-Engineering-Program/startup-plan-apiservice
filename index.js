@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 const express = require("express");
 const connectDb = require("./@helpers/db");
 const { register } = require("./controllers/auth.controller");
+const { verifyAuth } = require("./middlewares/basic_auth");
 const businessRouter = require("./routes/business.router");
 const planRouter = require("./routes/plan.router");
 
@@ -23,7 +24,7 @@ app.get(`/${api_version}`, (req, res, next) => {
 })
 
 app.use(`/${api_version}/businesses`, businessRouter);
-app.use(`/${api_version}/plans`, planRouter);
+app.use(`/${api_version}/plans`, verifyAuth, planRouter);
 app.post(`/${api_version}/auth/signup`, register);
 
 //error middleware
