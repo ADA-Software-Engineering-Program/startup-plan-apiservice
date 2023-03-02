@@ -80,7 +80,6 @@ async function login(req, res, next) {
 
     const tokenPayload = {
       username: user.username,
-      email: user_email.email
     };
 
     const access_token = await jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: "15m" });
@@ -88,9 +87,8 @@ async function login(req, res, next) {
     res.status(201).json({
       status: "success",
       message: "User login successfully",
-      access_token: ""
+      access_token: access_token,
     });
-  
   } catch(error) {
     console.log(error)
     next(error);
