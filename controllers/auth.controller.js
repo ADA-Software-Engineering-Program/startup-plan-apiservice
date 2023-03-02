@@ -2,6 +2,7 @@ const { AuthForbiddenException, ValidationException } = require("../@helpers/err
 
 const authModel = require("../models/auth.model");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 async function register(req, res, next) {
   const { username, password, email} = req.body;
@@ -53,6 +54,47 @@ async function register(req, res, next) {
 
 async function login(req, res, next) {
   const { username, password } = req.body;
+  try {
+
+   //check if user exist already
+    const user =   await authModel.findOne({ username: username.toLowerCase() }).exec();
+
+    if(!user) {
+      //this means there is a user
+      res.status(403).json({
+        status: "unsuccessful",
+        message: "user not found, create an account"
+      });
+    }
+
+    const isCorrectPassword = await bcrypt.compareSync(password, user.password);
+
+    console.log("password_test", isCorrectPassword)
+
+    if(isCorrectPassword) {
+      res.status(403).json({
+        status: "unsuccessful",
+        message: "Incorrect or invalid credentials"
+      });
+    } 
+
+    const tokenPayload = {
+      username: user.username,
+      email: user_email.email
+    };
+
+    const access_token = await jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: "15m" });
+
+    res.status(201).json({
+      status: "success",
+      message: "User login successfully",
+      access_token: ""
+    });
+  
+  } catch(error) {
+    console.log(error)
+    next(error);
+  }
 }
 
 module.exports = {

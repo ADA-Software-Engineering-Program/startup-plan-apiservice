@@ -34,15 +34,15 @@ async function verifyAuth(req, res, next) {
 }
 
 async function verifyApiKey(req, res, next) {
-  console.log(req.headers)
   try {
     if (!req.headers.devapikey) {
       throw new InvalidOrExpiredAuthToken("api key is missing", 403);
     }
 
     const apiKey = req.headers.devapikey;
+    console.log(apiKey)
 
-    const userAuth = await authModel.findOne({ apiKey: apiKey.toLowerCase() }).exec();
+    const userAuth = await authModel.findOne({ apiKey: apiKey }).exec();
 
     if (!userAuth) {
       throw new InvalidOrExpiredAuthToken("invalid api key: access denied", 403);
