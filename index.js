@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 const express = require("express");
 const connectDb = require("./@helpers/db");
+const cors = require("cors");
 const { register } = require("./controllers/auth.controller");
 const { verifyApiKey } = require("./middlewares/basic_auth");
 const businessRouter = require("./routes/business.router");
@@ -13,7 +14,7 @@ connectDb();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
 const api_version = "v1";
 app.post(`/${api_version}/auth/signup`, register);
