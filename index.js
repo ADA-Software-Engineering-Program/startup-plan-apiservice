@@ -13,6 +13,7 @@ connectDb();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors())
 
 const api_version = "v1";
 app.post(`/${api_version}/auth/signup`, register);
